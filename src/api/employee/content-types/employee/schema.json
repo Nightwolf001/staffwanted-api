@@ -1,0 +1,91 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employees",
+  "info": {
+    "singularName": "employee",
+    "pluralName": "employees",
+    "displayName": "Employee",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "account_complete": {
+      "type": "boolean",
+      "default": false
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "hide_profile": {
+      "type": "boolean",
+      "default": false
+    },
+    "work_description": {
+      "type": "text"
+    },
+    "date_of_birth": {
+      "type": "date"
+    },
+    "coord": {
+      "type": "json"
+    },
+    "job_roles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::job-role.job-role"
+    },
+    "gender": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::gender.gender"
+    },
+    "preferred_hours": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::preferred-hour.preferred-hour"
+    },
+    "previous_experience": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::previous-experience.previous-experience"
+    },
+    "profile_picture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "introduction_video": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "videos"
+      ]
+    }
+  }
+}

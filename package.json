@@ -1,0 +1,31 @@
+{
+  "name": "staffwanted-api",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@strapi/plugin-i18n": "4.14.0-alpha.0",
+    "@strapi/plugin-users-permissions": "4.14.0-alpha.0",
+    "@strapi/strapi": "4.14.0-alpha.0",
+    "better-sqlite3": "8.5.0",
+    "mysql": "^2.18.1"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "8cf29c01-c6a3-45ec-a7ac-a29a17d8fcde"
+  },
+  "engines": {
+    "node": ">=16.0.0 <=20.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

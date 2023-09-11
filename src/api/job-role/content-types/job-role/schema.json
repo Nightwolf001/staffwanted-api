@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "job_roles",
+  "info": {
+    "singularName": "job-role",
+    "pluralName": "job-roles",
+    "displayName": "Job Role"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "role": {
+      "type": "string"
+    }
+  }
+}

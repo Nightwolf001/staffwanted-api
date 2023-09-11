@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "previous_experiences",
+  "info": {
+    "singularName": "previous-experience",
+    "pluralName": "previous-experiences",
+    "displayName": "Previous Experience"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

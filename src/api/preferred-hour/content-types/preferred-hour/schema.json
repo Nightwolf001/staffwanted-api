@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "preferred_hours",
+  "info": {
+    "singularName": "preferred-hour",
+    "pluralName": "preferred-hours",
+    "displayName": "Preferred Hour"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}
