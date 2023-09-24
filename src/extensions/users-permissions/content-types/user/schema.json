@@ -68,9 +68,13 @@
     "user_type": {
       "type": "enumeration",
       "enum": [
-        "employee,",
+        "employee",
         "employer"
       ]
+    },
+    "profile_id": {
+      "type": "integer",
+      "unique": true
     }
   }
 }

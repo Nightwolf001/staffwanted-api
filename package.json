@@ -12,9 +12,13 @@
   "devDependencies": {},
   "dependencies": {
     "@strapi/plugin-i18n": "4.14.0-alpha.0",
+    "@strapi/plugin-sentry": "^4.13.7",
     "@strapi/plugin-users-permissions": "4.14.0-alpha.0",
     "@strapi/strapi": "4.14.0-alpha.0",
+    "axios": "^1.5.0",
     "better-sqlite3": "8.5.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1"
   },
   "author": {

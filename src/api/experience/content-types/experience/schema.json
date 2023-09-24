@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "previous_experiences",
+  "collectionName": "experiences",
   "info": {
-    "singularName": "previous-experience",
-    "pluralName": "previous-experiences",
-    "displayName": "Previous Experience"
+    "singularName": "experience",
+    "pluralName": "experiences",
+    "displayName": "Experience"
   },
   "options": {
     "draftAndPublish": false

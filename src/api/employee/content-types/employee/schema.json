@@ -32,21 +32,12 @@
     "location": {
       "type": "string"
     },
-    "start_date": {
-      "type": "date"
-    },
-    "end_date": {
-      "type": "date"
-    },
     "hide_profile": {
       "type": "boolean",
       "default": false
     },
     "work_description": {
       "type": "text"
-    },
-    "date_of_birth": {
-      "type": "date"
     },
     "coord": {
       "type": "json"
@@ -66,26 +57,45 @@
       "relation": "oneToMany",
       "target": "api::preferred-hour.preferred-hour"
     },
-    "previous_experience": {
+    "video_id": {
+      "type": "integer"
+    },
+    "avatar_id": {
+      "type": "integer"
+    },
+    "start_date": {
+      "type": "string",
+      "default": "NULL"
+    },
+    "end_date": {
+      "type": "string",
+      "default": "NULL"
+    },
+    "date_of_birth": {
+      "type": "string",
+      "default": "NULL"
+    },
+    "profile_boosted": {
+      "type": "boolean",
+      "default": false
+    },
+    "user_logged_in": {
+      "type": "boolean",
+      "default": false
+    },
+    "experience": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::previous-experience.previous-experience"
+      "target": "api::experience.experience"
     },
-    "profile_picture": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
+    "jobs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::job.job",
+      "mappedBy": "employees"
     },
-    "introduction_video": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "videos"
-      ]
+    "place_id": {
+      "type": "string"
     }
   }
 }

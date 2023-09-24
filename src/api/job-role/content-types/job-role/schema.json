@@ -13,6 +13,12 @@
   "attributes": {
     "role": {
       "type": "string"
+    },
+    "job": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::job.job",
+      "inversedBy": "job_roles"
     }
   }
 }

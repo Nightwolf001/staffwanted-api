@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employers",
+  "info": {
+    "singularName": "employer",
+    "pluralName": "employers",
+    "displayName": "Employer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company_name": {
+      "type": "string"
+    },
+    "company_email": {
+      "type": "email"
+    },
+    "company_number": {
+      "type": "string"
+    },
+    "company_location": {
+      "type": "string"
+    },
+    "coords": {
+      "type": "json"
+    },
+    "place_id": {
+      "type": "string"
+    },
+    "jobs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::job.job",
+      "mappedBy": "employer"
+    },
+    "company_avatar_url": {
+      "type": "string"
+    },
+    "company_avatar_id": {
+      "type": "integer"
+    }
+  }
+}
