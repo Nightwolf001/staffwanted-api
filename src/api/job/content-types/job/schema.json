@@ -27,29 +27,11 @@
     "coord": {
       "type": "json"
     },
-    "employees": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::employee.employee",
-      "inversedBy": "jobs"
-    },
     "employer": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::employer.employer",
       "inversedBy": "jobs"
-    },
-    "job_roles": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::job-role.job-role",
-      "mappedBy": "job"
-    },
-    "preferred_hours": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::preferred-hour.preferred-hour",
-      "mappedBy": "job"
     },
     "experience": {
       "type": "relation",
@@ -61,6 +43,27 @@
     },
     "job_avatar_id": {
       "type": "integer"
+    },
+    "salary": {
+      "type": "float"
+    },
+    "employee": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::employee.employee",
+      "inversedBy": "jobs"
+    },
+    "job_roles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::job-role.job-role",
+      "mappedBy": "jobs"
+    },
+    "preferred_hours": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::preferred-hour.preferred-hour",
+      "mappedBy": "jobs"
     }
   }
 }

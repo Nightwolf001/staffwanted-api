@@ -88,14 +88,14 @@
       "relation": "oneToOne",
       "target": "api::experience.experience"
     },
-    "jobs": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::job.job",
-      "mappedBy": "employees"
-    },
     "place_id": {
       "type": "string"
+    },
+    "jobs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::job.job",
+      "mappedBy": "employee"
     }
   }
 }

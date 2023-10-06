@@ -76,6 +76,7 @@ module.exports = createCoreController('api::employee.employee', ({strapi}) =>({
                 preferred_hours: true,
                 job_roles: true,
                 experience: true,
+                jobs: true,
              },
         });
 
@@ -115,16 +116,16 @@ module.exports = createCoreController('api::employee.employee', ({strapi}) =>({
     }
 
     return places
-  },
+    },
 
-  async googlePlacesDetails(ctx){
+    async googlePlacesDetails(ctx){
 
-    const {query} = ctx;
-    let {place_id} = query;
+        const {query} = ctx;
+        let {place_id} = query;
 
-    let response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.MAPS_API_KEY}`)
-    return response.data
-  }
+        let response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.MAPS_API_KEY}`)
+        return response.data
+    }
 
 }));
 

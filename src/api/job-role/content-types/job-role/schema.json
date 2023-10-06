@@ -4,7 +4,8 @@
   "info": {
     "singularName": "job-role",
     "pluralName": "job-roles",
-    "displayName": "Job Role"
+    "displayName": "Job Role",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -14,9 +15,9 @@
     "role": {
       "type": "string"
     },
-    "job": {
+    "jobs": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::job.job",
       "inversedBy": "job_roles"
     }

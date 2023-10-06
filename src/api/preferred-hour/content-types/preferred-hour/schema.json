@@ -4,7 +4,8 @@
   "info": {
     "singularName": "preferred-hour",
     "pluralName": "preferred-hours",
-    "displayName": "Preferred Hour"
+    "displayName": "Preferred Hour",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -14,9 +15,9 @@
     "name": {
       "type": "string"
     },
-    "job": {
+    "jobs": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::job.job",
       "inversedBy": "preferred_hours"
     }
