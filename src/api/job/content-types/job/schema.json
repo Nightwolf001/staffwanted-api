@@ -47,12 +47,6 @@
     "salary": {
       "type": "float"
     },
-    "employee": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::employee.employee",
-      "inversedBy": "jobs"
-    },
     "job_roles": {
       "type": "relation",
       "relation": "manyToMany",
@@ -63,6 +57,12 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::preferred-hour.preferred-hour",
+      "mappedBy": "jobs"
+    },
+    "employee_job_maps": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::employee-job-map.employee-job-map",
       "mappedBy": "jobs"
     }
   }

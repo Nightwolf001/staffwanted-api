@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employee_job_maps",
+  "info": {
+    "singularName": "employee-job-map",
+    "pluralName": "employee-job-maps",
+    "displayName": "Employee Job Map",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "employees": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::employee.employee",
+      "inversedBy": "employee_job_maps"
+    },
+    "jobs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::job.job",
+      "inversedBy": "employee_job_maps"
+    },
+    "bookmarked": {
+      "type": "boolean",
+      "default": false
+    },
+    "applied": {
+      "type": "boolean",
+      "default": false
+    },
+    "application_status": {
+      "type": "enumeration",
+      "enum": [
+        "not-applied",
+        "applied",
+        "pending",
+        "approved",
+        "declined"
+      ],
+      "default": "not-applied"
+    },
+    "status_description": {
+      "type": "text"
+    }
+  }
+}

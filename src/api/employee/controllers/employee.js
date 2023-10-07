@@ -80,20 +80,6 @@ module.exports = createCoreController('api::employee.employee', ({strapi}) =>({
              },
         });
 
-        if(entry) {
-            
-            const video_ = await strapi.query("plugin::upload.file").findOne({
-                where: { id: entry.video_id },
-            });
-
-            const avatar_ = await strapi.query("plugin::upload.file").findOne({
-                where: { id: entry.avatar_id },
-            });
-
-            entry.video_id = video_
-            entry.avatar_id = avatar_
-
-        } 
 
         return this.transformResponse(entry);
     },

@@ -43,7 +43,7 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
             const {query} = ctx;
             let {search, job_roles, experience, preferred_hours, distance, lat, lng} = query;
 
-            console.log('query', query);
+            // console.log('query', query);
             console.log('user_id', user_id);
             console.log('search', search);
             console.log('lat', lat);
@@ -58,13 +58,17 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                     preferred_hours: true,
                     job_roles: true,
                     experience: true,
-                    jobs: true,
+                    employee_job_maps: {
+                        populate: ['jobs']
+                    },
                 },
             });
 
+        
             if(employee) {
                 let entries
                 if(search.length !== 0) {
+
                     entries = await strapi.entityService.findMany('api::job.job', {
                         fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary'],
                         filters: {
@@ -79,7 +83,9 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                             experience: true,
                         },
                     });
+
                 } else {
+
                     entries = await strapi.entityService.findMany('api::job.job', {
                         fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary'],
                         filters: {
@@ -97,33 +103,59 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                     });
                 }
 
+                // filter through the entries and add the bookmarked property
+                // referencing the employee_job_maps table
+                for (let j = 0; j < entries.length; j++) {
+                    const entry = entries[j];
+                    for (let e = 0; e < employee.employee_job_maps.length; e++) {
+                        const job_map = employee.employee_job_maps[e];
+                        for (let j = 0; j < job_map.jobs.length; j++) {
+                            const job = job_map.jobs[j];
+                            if (entry.id === job.id) {
+                                entry.bookmarked = job_map.bookmarked;
+                            } 
+                        }
+                    }
+                }
 
                 const filteredEntries = [];
                 for (let i = 0; i < entries.length; i++) {
                     const entry = entries[i];
                     const jobCoord = entry.coord;
-                    const userCoord = employee.coord;
                     const distance_from_location = await this.getDistanceFromLatLonInKm(jobCoord.lat, jobCoord.lng, lat, lng);
                     if(distance_from_location < distance) {
                         filteredEntries.push(entry);
                     }
                 }
                 
-               for (let j = 0; j < filteredEntries.length; j++) {
-                    const entry = filteredEntries[j];
-                    for (let e = 0; e < employee.jobs.length; e++) {
-                        const job = employee.jobs[e];
-                        if (entry.id === job.id) {
-                            entry.bookmarked = true;
-                        } else {
-                            entry.bookmarked = false;
-                        }
-                    }
-                }
-
                 return this.transformResponse(filteredEntries);
             }
 
+            
+        } catch (ex) {
+            console.log('ex', ex)
+        }
+    },
+
+    async findBookmarkedJobs(ctx) {
+        
+        try {
+            const { user_id } = ctx.request.header;
+    
+            let employee = await strapi.entityService.findOne('api::employee.employee', user_id, {
+                populate: { 
+                    jobs: {
+                        populate: { 
+                            employer: true,
+                            job_roles: true,
+                            preferred_hours: true,
+                            experience: true,
+                        },
+                    },
+                },
+            });
+
+            return this.transformResponse(employee.jobs);
             
         } catch (ex) {
             console.log('ex', ex)

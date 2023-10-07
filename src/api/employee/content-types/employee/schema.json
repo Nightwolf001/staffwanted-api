@@ -32,15 +32,18 @@
     "location": {
       "type": "string"
     },
+    "coord": {
+      "type": "json"
+    },
+    "place_id": {
+      "type": "string"
+    },
     "hide_profile": {
       "type": "boolean",
       "default": false
     },
     "work_description": {
       "type": "text"
-    },
-    "coord": {
-      "type": "json"
     },
     "job_roles": {
       "type": "relation",
@@ -88,14 +91,20 @@
       "relation": "oneToOne",
       "target": "api::experience.experience"
     },
-    "place_id": {
+    "video_url": {
       "type": "string"
     },
-    "jobs": {
+    "avatar_url": {
+      "type": "string"
+    },
+    "job_application_status": {
+      "type": "json"
+    },
+    "employee_job_maps": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::job.job",
-      "mappedBy": "employee"
+      "relation": "manyToMany",
+      "target": "api::employee-job-map.employee-job-map",
+      "mappedBy": "employees"
     }
   }
 }
