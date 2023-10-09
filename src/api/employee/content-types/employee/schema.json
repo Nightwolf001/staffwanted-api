@@ -100,11 +100,11 @@
     "job_application_status": {
       "type": "json"
     },
-    "employee_job_maps": {
+    "employee_job_matches": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::employee-job-map.employee-job-map",
-      "mappedBy": "employees"
+      "relation": "oneToMany",
+      "target": "api::employee-job-match.employee-job-match",
+      "mappedBy": "employee"
     }
   }
 }

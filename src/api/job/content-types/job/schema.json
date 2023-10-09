@@ -59,11 +59,11 @@
       "target": "api::preferred-hour.preferred-hour",
       "mappedBy": "jobs"
     },
-    "employee_job_maps": {
+    "employee_job_matches": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::employee-job-map.employee-job-map",
-      "mappedBy": "jobs"
+      "relation": "oneToMany",
+      "target": "api::employee-job-match.employee-job-match",
+      "mappedBy": "job"
     }
   }
 }

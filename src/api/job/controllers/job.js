@@ -37,7 +37,7 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
     // },
 
     async findFilterdJobs(ctx) {
-        
+        console.log('findFilterdJobs', ctx)
         try {
             const { user_id } = ctx.request.header;
             const {query} = ctx;
@@ -58,16 +58,17 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                     preferred_hours: true,
                     job_roles: true,
                     experience: true,
-                    employee_job_maps: {
-                        populate: ['jobs']
+                    employee_job_matches: {
+                        populate: ['job']
                     },
                 },
             });
 
+           
         
             if(employee) {
                 let entries
-                if(search.length !== 0) {
+                if(search && search.length !== 0) {
 
                     entries = await strapi.entityService.findMany('api::job.job', {
                         fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary'],
@@ -101,20 +102,23 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                             experience: true,
                         },
                     });
+
+                    console.log('entries', entries);
                 }
 
                 // filter through the entries and add the bookmarked property
-                // referencing the employee_job_maps table
+                // referencing the employee_job_match table
                 for (let j = 0; j < entries.length; j++) {
                     const entry = entries[j];
-                    for (let e = 0; e < employee.employee_job_maps.length; e++) {
-                        const job_map = employee.employee_job_maps[e];
-                        for (let j = 0; j < job_map.jobs.length; j++) {
-                            const job = job_map.jobs[j];
-                            if (entry.id === job.id) {
+                    if(employee.employee_job_matches.length !== 0) {
+                        for (let e = 0; e < employee.employee_job_matches.length; e++) {
+                            const job_map = employee.employee_job_matches[e];
+                            if (entry.id === job_map.job.id) {
                                 entry.bookmarked = job_map.bookmarked;
                             } 
                         }
+                    } else {
+                        entry.bookmarked = false;
                     }
                 }
 
@@ -131,31 +135,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                 return this.transformResponse(filteredEntries);
             }
 
-            
-        } catch (ex) {
-            console.log('ex', ex)
-        }
-    },
-
-    async findBookmarkedJobs(ctx) {
-        
-        try {
-            const { user_id } = ctx.request.header;
-    
-            let employee = await strapi.entityService.findOne('api::employee.employee', user_id, {
-                populate: { 
-                    jobs: {
-                        populate: { 
-                            employer: true,
-                            job_roles: true,
-                            preferred_hours: true,
-                            experience: true,
-                        },
-                    },
-                },
-            });
-
-            return this.transformResponse(employee.jobs);
             
         } catch (ex) {
             console.log('ex', ex)
