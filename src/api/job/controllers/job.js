@@ -39,12 +39,13 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
     async findFilterdJobs(ctx) {
         console.log('findFilterdJobs', ctx)
         try {
-            const { user_id } = ctx.request.header;
+            // const { user_id } = ctx.request.header;
+            const { id } = ctx.params;
             const {query} = ctx;
             let {search, job_roles, experience, preferred_hours, distance, lat, lng, metric} = query;
 
             console.log('query', query);
-            console.log('user_id', user_id);
+            console.log('user_id', id);
             console.log('search', search);
             console.log('lat', lat);
             console.log('lng', lng);
@@ -53,7 +54,7 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
             console.log('experience', experience);
             console.log('preferred_hours', preferred_hours.split(','));
 
-            let employee = await strapi.entityService.findOne('api::employee.employee', user_id, {
+            let employee = await strapi.entityService.findOne('api::employee.employee', id, {
                 fields: ['coord', 'location', 'place_id'],
                 populate: { 
                     preferred_hours: true,
