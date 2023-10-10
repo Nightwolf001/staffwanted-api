@@ -39,7 +39,7 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
     async findFilterdJobs(ctx) {
         console.log('findFilterdJobs', ctx)
         try {
-            // const { user_id } = ctx.request.header;
+    
             const { id } = ctx.params;
             const {query} = ctx;
             let {search, job_roles, experience, preferred_hours, distance, lat, lng, metric} = query;

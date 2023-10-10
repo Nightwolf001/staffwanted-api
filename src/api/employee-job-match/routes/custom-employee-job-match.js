@@ -7,7 +7,12 @@ module.exports = {
         },
         {
             method: 'GET',
-            path: '/employee-job-matches/application-status/:id',
+            path: '/employee-job-matches/:id',
+            handler: 'employee-job-match.find',
+        },
+        {
+            method: 'GET',
+            path: '/employee-job-matches/application-status/:id/:user_id',
             handler: 'employee-job-match.getApplicationStatus',
         },
     ]

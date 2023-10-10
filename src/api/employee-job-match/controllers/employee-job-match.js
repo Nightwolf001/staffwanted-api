@@ -10,8 +10,8 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
 
     async find(ctx) {
         try {
-            console.log('find', ctx)
-            const { user_id } = ctx.request.header;
+    
+            const { id } = ctx.params;
             const entries = await strapi.entityService.findMany('api::employee-job-match.employee-job-match', {
             populate: {
                 job : {
@@ -24,7 +24,7 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
                 }
             },
             filters: {
-                employee: user_id,
+                employee: id,
             }
         });
 
@@ -37,9 +37,8 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
 
     async upsert(ctx) {
 
-        const { user_id } = ctx.request.header;
         const { body } = ctx.request
-        const { job_id, bookmarked, applied, application_status, status_description } = body
+        const { job_id, bookmarked, applied, application_status, status_description, user_id } = body
         
 
         const entries = await strapi.entityService.findMany('api::employee-job-match.employee-job-match', {
@@ -103,9 +102,7 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
     async getApplicationStatus(ctx) {
         try {
 
-        const { user_id } = ctx.request.header;
-        const { id } = ctx.params;
-
+        const { id, user_id } = ctx.params;
         const entries = await strapi.entityService.findMany('api::employee-job-match.employee-job-match', {
             populate: ['job'],
             filters: {
