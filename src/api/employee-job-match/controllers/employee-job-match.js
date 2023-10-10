@@ -65,10 +65,10 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
                 }
 
                 if(applied !== undefined) {
-                        query.bookmarked = bookmarked !== undefined ? bookmarked : entry.bookmarked;
-                        query.applied = applied;
-                        query.application_status = applied ? 'applied' : 'none';
-                        query.status_description = status_description ? status_description : entry.status_description;
+                    query.bookmarked = bookmarked !== undefined ? bookmarked : entry.bookmarked;
+                    query.applied = applied;
+                    query.application_status = applied ? 'pending' : 'none';
+                    query.status_description = status_description ? status_description : entry.status_description;
                 }
 
                 let item = await strapi.entityService.update('api::employee-job-match.employee-job-match', entry.id, {

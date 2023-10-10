@@ -2,6 +2,7 @@
 var _ = require('lodash');
 const axios = require('axios');
 var moment = require('moment');
+const geolib = require('geolib');
 
 
 /**
@@ -11,7 +12,6 @@ var moment = require('moment');
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::job.job', ({strapi}) =>({
-
     // async find(ctx) {
     //     console.log('find', ctx)
     //     try {
@@ -41,13 +41,14 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
         try {
             const { user_id } = ctx.request.header;
             const {query} = ctx;
-            let {search, job_roles, experience, preferred_hours, distance, lat, lng} = query;
+            let {search, job_roles, experience, preferred_hours, distance, lat, lng, metric} = query;
 
-            // console.log('query', query);
+            console.log('query', query);
             console.log('user_id', user_id);
             console.log('search', search);
             console.log('lat', lat);
             console.log('lng', lng);
+            console.log('metric', metric);
             console.log('job_roles', job_roles.split(','));
             console.log('experience', experience);
             console.log('preferred_hours', preferred_hours.split(','));
@@ -126,7 +127,8 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                 for (let i = 0; i < entries.length; i++) {
                     const entry = entries[i];
                     const jobCoord = entry.coord;
-                    const distance_from_location = await this.getDistanceFromLatLonInKm(jobCoord.lat, jobCoord.lng, lat, lng);
+                    const distance_from_location = await this.calculatePreciseDistance(jobCoord.lat, jobCoord.lng, lat, lng, metric);
+                    console.log('distance_from_location', distance_from_location);
                     if(distance_from_location < distance) {
                         filteredEntries.push(entry);
                     }
@@ -176,6 +178,17 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
 
     async deg2rad(deg) {
         return deg * (Math.PI / 180);
+    },
+
+    async calculatePreciseDistance (lat1, lon1, lat2, lon2, metric) {
+
+        var pdis = geolib.getPreciseDistance(
+            { latitude: lat1, longitude: lon1 },
+            { latitude: lat2, longitude: lon2 },
+        );
+
+        let distance = geolib.convertDistance(pdis, metric);
+        return distance;
     }
 
 }));

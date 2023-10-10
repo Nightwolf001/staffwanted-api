@@ -17,6 +17,7 @@
     "@strapi/strapi": "4.14.0-alpha.0",
     "axios": "^1.5.0",
     "better-sqlite3": "8.5.0",
+    "geolib": "^3.3.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mysql": "^2.18.1"
