@@ -78,7 +78,6 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
                         status_description: status_description ? status_description : entry.status_description,
                     }
                 })
-                console.log('item', item)
             }
             return this.transformResponse({updated: true});
 
@@ -94,7 +93,6 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
                     job: job_id,
                 }
             });
-            console.log('entry', entry)
             return this.transformResponse({updated: true});
         }
     },

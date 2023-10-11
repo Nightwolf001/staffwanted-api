@@ -46,13 +46,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
 
             console.log('query', query);
             console.log('user_id', id);
-            console.log('search', search);
-            console.log('lat', lat);
-            console.log('lng', lng);
-            console.log('metric', metric);
-            console.log('job_roles', job_roles.split(','));
-            console.log('experience', experience);
-            console.log('preferred_hours', preferred_hours.split(','));
 
             let employee = await strapi.entityService.findOne('api::employee.employee', id, {
                 fields: ['coord', 'location', 'place_id'],
@@ -104,8 +97,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                             experience: true,
                         },
                     });
-
-                    console.log('entries', entries);
                 }
 
                 // filter through the entries and add the bookmarked property
@@ -129,7 +120,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                     const entry = entries[i];
                     const jobCoord = entry.coord;
                     const distance_from_location = await this.calculatePreciseDistance(jobCoord.lat, jobCoord.lng, lat, lng, metric);
-                    console.log('distance_from_location', distance_from_location);
                     if(distance_from_location < distance) {
                         filteredEntries.push(entry);
                     }
@@ -163,22 +153,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
         } catch (ex) {
             console.log('ex', ex)
         }
-    },
-
-    async getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius of the earth in km
-        const dLat = await this.deg2rad(lat2 - lat1); // deg2rad below
-        const dLon = await this.deg2rad(lon2 - lon1);
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(await this.deg2rad(lat1)) * Math.cos(await this.deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const d = R * c; // Distance in km
-        return d;
-    },
-
-    async deg2rad(deg) {
-        return deg * (Math.PI / 180);
     },
 
     async calculatePreciseDistance (lat1, lon1, lat2, lon2, metric) {

@@ -14,7 +14,6 @@ module.exports = createCoreController('api::employee.employee', ({strapi}) =>({
     async createAccount(ctx) {
 
         const { body } = ctx.request
-        console.log('body', body)
         const { email, password, coord } = body
 
         let find = await strapi.entityService.findMany('api::employee.employee', {
