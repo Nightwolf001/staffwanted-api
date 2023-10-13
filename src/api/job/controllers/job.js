@@ -37,7 +37,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
     // },
 
     async findFilterdJobs(ctx) {
-        console.log('findFilterdJobs', ctx)
         try {
     
             const { id } = ctx.params;
@@ -66,7 +65,7 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                 if(search && search.length !== 0) {
 
                     entries = await strapi.entityService.findMany('api::job.job', {
-                        fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary'],
+                        fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary_type', 'salary_value', 'salary_currency'],
                         filters: {
                             title: search.length !== 0 ? { $contains: search } : { $notNull: true},
                             experience: experience,
@@ -83,7 +82,7 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                 } else {
 
                     entries = await strapi.entityService.findMany('api::job.job', {
-                        fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary'],
+                        fields: ['title', 'description', 'location', 'place_id', 'coord', 'job_avatar_uri', 'job_avatar_id', 'salary_type', 'salary_value', 'salary_currency'],
                         filters: {
                             experience: experience,
                             job_roles: job_roles.split(',') ,

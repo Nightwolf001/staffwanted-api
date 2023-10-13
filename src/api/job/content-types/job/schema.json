@@ -44,9 +44,6 @@
     "job_avatar_id": {
       "type": "integer"
     },
-    "salary": {
-      "type": "float"
-    },
     "job_roles": {
       "type": "relation",
       "relation": "manyToMany",
@@ -64,6 +61,20 @@
       "relation": "oneToMany",
       "target": "api::employee-job-match.employee-job-match",
       "mappedBy": "job"
+    },
+    "salary_value": {
+      "type": "string"
+    },
+    "salary_type": {
+      "type": "enumeration",
+      "enum": [
+        "pa",
+        "ph"
+      ],
+      "default": "pa"
+    },
+    "salary_currency": {
+      "type": "string"
     }
   }
 }

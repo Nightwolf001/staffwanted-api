@@ -105,6 +105,15 @@
       "relation": "oneToMany",
       "target": "api::employee-job-match.employee-job-match",
       "mappedBy": "employee"
+    },
+    "cv_url": {
+      "type": "string"
+    },
+    "cv_file_name": {
+      "type": "string"
+    },
+    "cv_id": {
+      "type": "integer"
     }
   }
 }
