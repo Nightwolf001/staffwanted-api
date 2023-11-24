@@ -1,4 +1,5 @@
 'use strict';
+var _ = require('lodash');
 
 /**
  * employee-job-match controller
@@ -57,10 +58,10 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
 
                 let query = {};
                 if(bookmarked !== undefined) {
-                        query.bookmarked = bookmarked;
-                        query.applied = applied !== undefined ? applied : entry.applied;
-                        query.application_status = application_status ? application_status : entry.application_status;
-                        query.status_description = status_description ? status_description : entry.status_description;
+                    query.bookmarked = bookmarked;
+                    query.applied = applied !== undefined ? applied : entry.applied;
+                    query.application_status = application_status ? application_status : entry.application_status;
+                    query.status_description = status_description ? status_description : entry.status_description;
                 }
 
                 if(applied !== undefined) {
@@ -118,7 +119,97 @@ module.exports = createCoreController('api::employee-job-match.employee-job-matc
         } catch (error) {
             console.log('error', error)
         }
-    }
+    },
+
+    async getApplicantsByJob(ctx) {
+        try {
+
+        const { body } = ctx.request
+        const { ids } = body
+        const entries = await strapi.entityService.findMany('api::employee-job-match.employee-job-match', {
+            populate: ['employee'],
+            filters: { job: ids }
+        });
+
+        const employee_ids = _.map(entries, item => (item.employee.id));
+        
+        let applicants = await strapi.entityService.findMany('api::employee.employee', {
+            fields: ['*'],
+            filters: {
+                id : employee_ids,
+            },
+            populate: { 
+                gender: true,
+                preferred_hours: true,
+                job_roles: true,
+                experience: true,
+                employee_job_matches: {
+                    populate: {
+                        job: {
+                            populate: {
+                                employer: true,
+                            }
+                        },
+                    }
+                },
+             },
+        });
+        
+        return this.transformResponse(applicants);
+
+        } catch (error) {
+            console.log('error', error)
+        }
+    },
+
+    async getApplicationsByJob(ctx) {
+        try {
+
+            const { body } = ctx.request
+            const { ids } = body
+
+            const entries = await strapi.entityService.findMany('api::employee-job-match.employee-job-match', {
+                populate: ['employee', 'job'],
+                filters: { job: ids, applied: true },
+                sort: { createdAt: 'DESC' },
+            });
+
+            return this.transformResponse(entries);
+
+
+        } catch (error) {
+            console.log('error', error)
+        }
+    },
+
+    async getApplicationAnalytics(ctx) {
+        try {
+
+        const { body } = ctx.request
+        const { ids } = body
+        const entries = await strapi.entityService.findMany('api::employee-job-match.employee-job-match', {
+            populate: ['employee', 'job'],
+            filters: { job: ids, applied: true },
+            sort: { createdAt: 'DESC' },
+        });
+        
+        let analytics = {
+            total_applications: entries.length,
+            total_pending: _.filter(entries, { 'application_status': 'pending' }).length,
+            total_reviewing: _.filter(entries, { 'application_status': 'reviewing' }).length,
+            total_accepted: _.filter(entries, { 'application_status': 'approved' }).length,
+            total_rejected: _.filter(entries, { 'application_status': 'declined' }).length,
+            latest_applications: entries.splice(0, 10),
+        };
+    
+        
+        return this.transformResponse(analytics);
+        
+
+        } catch (error) {
+            console.log('error', error)
+        }
+    },
 
 }));
 

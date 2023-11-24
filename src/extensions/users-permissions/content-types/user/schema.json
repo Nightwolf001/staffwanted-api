@@ -74,7 +74,7 @@
     },
     "profile_id": {
       "type": "integer",
-      "unique": true
+      "unique": false
     }
   }
 }

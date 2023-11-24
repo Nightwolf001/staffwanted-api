@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('lodash');
 const axios = require('axios');
-var moment = require('moment');
 
 /**
  * employee controller
@@ -76,9 +75,47 @@ module.exports = createCoreController('api::employee.employee', ({strapi}) =>({
                 job_roles: true,
                 experience: true,
                 jobs: true,
+                employee_job_matches: {
+                    populate: {
+                        job: true
+                    }
+                },
              },
         });
 
+        return this.transformResponse(entry);
+    },
+
+    async getEmplyeesByEmployer(ctx) {
+
+        const { id } = ctx.params;
+        let entry = await strapi.entityService.findMany('api::employee.employee',{
+            fields: ['*'],
+            filters: {
+                 employee_job_matches: { 
+                    job: { 
+                        employer: id
+                    }
+                },
+            },
+            populate: { 
+                gender: true,
+                preferred_hours: true,
+                job_roles: true,
+                experience: true,
+                jobs: true,
+                employee_job_matches: {
+                    populate: {
+                        job: {
+                            populate: {
+                                employer: true,
+                            }
+                        },
+                        employer: true,
+                    }
+                },
+             },
+        });
 
         return this.transformResponse(entry);
     },

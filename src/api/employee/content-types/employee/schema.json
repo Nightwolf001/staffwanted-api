@@ -97,9 +97,6 @@
     "avatar_url": {
       "type": "string"
     },
-    "job_application_status": {
-      "type": "json"
-    },
     "employee_job_matches": {
       "type": "relation",
       "relation": "oneToMany",
@@ -114,6 +111,25 @@
     },
     "cv_id": {
       "type": "integer"
+    },
+    "unavailable_dates": {
+      "type": "text"
+    },
+    "current_employment_status": {
+      "type": "enumeration",
+      "enum": [
+        "available",
+        "applying",
+        "looking",
+        "not looking",
+        "possibly"
+      ]
+    },
+    "calendars": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::calendar.calendar",
+      "mappedBy": "employee"
     }
   }
 }

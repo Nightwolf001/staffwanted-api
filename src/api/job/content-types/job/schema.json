@@ -75,6 +75,37 @@
     },
     "salary_currency": {
       "type": "string"
+    },
+    "published": {
+      "type": "boolean",
+      "default": false
+    },
+    "active": {
+      "type": "boolean",
+      "default": false
+    },
+    "contact_person": {
+      "type": "string"
+    },
+    "contact_number": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "email"
+    },
+    "active_date": {
+      "type": "date",
+      "default": "2023-11-08"
+    },
+    "expiry_date": {
+      "type": "date",
+      "default": "2023-11-30"
+    },
+    "calendars": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::calendar.calendar",
+      "mappedBy": "job"
     }
   }
 }

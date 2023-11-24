@@ -47,6 +47,15 @@
     },
     "company_website": {
       "type": "string"
+    },
+    "tokens": {
+      "type": "integer"
+    },
+    "calendars": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::calendar.calendar",
+      "mappedBy": "employer"
     }
   }
 }

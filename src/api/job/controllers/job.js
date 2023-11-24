@@ -43,9 +43,6 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
             const {query} = ctx;
             let {search, job_roles, experience, preferred_hours, distance, lat, lng, metric} = query;
 
-            console.log('query', query);
-            console.log('user_id', id);
-
             let employee = await strapi.entityService.findOne('api::employee.employee', id, {
                 fields: ['coord', 'location', 'place_id'],
                 populate: { 
@@ -119,17 +116,40 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                     const entry = entries[i];
                     const jobCoord = entry.coord;
                     const distance_from_location = await this.calculatePreciseDistance(jobCoord.lat, jobCoord.lng, lat, lng, metric);
-                    if(distance_from_location < distance) {
-                        filteredEntries.push(entry);
-                    }
+                    if(distance_from_location < distance) { filteredEntries.push(entry)}
                 }
                 
                 return this.transformResponse(filteredEntries);
             }
 
-            
         } catch (ex) {
             console.log('ex', ex)
+        }
+    },
+
+    async findEmployerJobs(ctx) {
+        try {
+
+            const { id } = ctx.params;
+            const entries = await strapi.entityService.findMany('api::job.job', {
+                fields: ['*'],
+                filters: {
+                    employer: [id],
+                },
+                sort: { createdAt: 'DESC' },
+                populate: {
+                    job_roles: true,
+                    preferred_hours: true,
+                    experience: true,
+                    employer: true,
+                    employee_job_matches: true,
+                },
+            });
+
+            return this.transformResponse(entries);
+            
+        } catch (ex) {
+            console.error('ex', ex);
         }
     },
 
@@ -144,6 +164,17 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
                     job_roles: true,
                     preferred_hours: true,
                     experience: true,
+                    employee_job_matches: {
+                        populate: {
+                            employee: {
+                                populate: {
+                                    experience: true,
+                                    preferred_hours: true,
+                                    job_roles: true,
+                                }
+                            }
+                        }
+                    },
                 },
             });
 
@@ -163,6 +194,35 @@ module.exports = createCoreController('api::job.job', ({strapi}) =>({
 
         let distance = geolib.convertDistance(pdis, metric);
         return distance;
+    },
+
+    async googlePlacesPredictions(ctx){
+
+        const {query} = ctx;
+        let {search} = query;
+
+        let response = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${search}&key=${process.env.MAPS_API_KEY}&region=za`)
+
+        console.log(response.data)
+
+        const predictions = response.data.predictions;
+
+        // let places = [];
+
+        // for await(const prediction of predictions){
+        //   places.push(prediction.description)
+        // }
+
+        return predictions
+    },
+
+    async googlePlacesDetails(ctx){
+
+        const {query} = ctx;
+        let {place_id} = query;
+
+        let response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${process.env.MAPS_API_KEY}`)
+        return response.data
     }
 
 }));

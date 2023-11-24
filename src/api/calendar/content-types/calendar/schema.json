@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "calendars",
+  "info": {
+    "singularName": "calendar",
+    "pluralName": "calendars",
+    "displayName": "Calendar",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "all_day": {
+      "type": "boolean",
+      "default": false
+    },
+    "text_color": {
+      "type": "string"
+    },
+    "start": {
+      "type": "string"
+    },
+    "end": {
+      "type": "string"
+    },
+    "employee": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::employee.employee",
+      "inversedBy": "calendars"
+    },
+    "employer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::employer.employer",
+      "inversedBy": "calendars"
+    },
+    "job": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::job.job",
+      "inversedBy": "calendars"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "proposed",
+        "accepted",
+        "declined",
+        "change"
+      ]
+    }
+  }
+}

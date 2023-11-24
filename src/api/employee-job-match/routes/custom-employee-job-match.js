@@ -15,5 +15,20 @@ module.exports = {
             path: '/employee-job-matches/application-status/:id/:user_id',
             handler: 'employee-job-match.getApplicationStatus',
         },
+        {
+            method: 'POST',
+            path: '/employee-job-matches/job/applicants',
+            handler: 'employee-job-match.getApplicantsByJob',
+        },
+        {
+            method: 'POST',
+            path: '/employee-job-matches/job/applications',
+            handler: 'employee-job-match.getApplicationsByJob',
+        },
+        {
+            method: 'POST',
+            path: '/employee-job-matches/applications/analytics',
+            handler: 'employee-job-match.getApplicationAnalytics',
+        },
     ]
 }

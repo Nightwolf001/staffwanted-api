@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "impressions",
+  "info": {
+    "singularName": "impression",
+    "pluralName": "impressions",
+    "displayName": "Impression",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "entity_id": {
+      "type": "integer"
+    },
+    "entity_type": {
+      "type": "enumeration",
+      "enum": [
+        "employee",
+        "employer",
+        "job"
+      ]
+    },
+    "entity_action": {
+      "type": "enumeration",
+      "enum": [
+        "view",
+        "search",
+        "bookmark",
+        "application",
+        "reference",
+        "share"
+      ]
+    }
+  }
+}
